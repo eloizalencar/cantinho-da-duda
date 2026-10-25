@@ -67,6 +67,7 @@
       pointer-events: none;
     }
 
+    /* Barra Superior */
     .top-bar {
       position: fixed;
       top: 16px;
@@ -120,6 +121,7 @@
       border-color: var(--accent-gold);
     }
 
+    /* Contentor Principal das Salas */
     .stage-container {
       position: relative;
       width: 100%;
@@ -1591,7 +1593,7 @@
             <span class="memory-star-inner-icon">🌊</span>
           </div>
 
-          <div class="memory-star-node" style="top: 48%; left: 30%;" data-idx="3" title="Seus 15 Anos">
+          <div class="memory-star-node" style="top: 48%; left: 30%;" data-idx="3" title="Almas Gêmeas">
             <span class="memory-star-inner-icon">✨</span>
           </div>
 
@@ -1647,7 +1649,7 @@
             </div>
 
             <div class="floating-photo-overlay" id="floating-photo-badge">
-              <img class="floating-photo-img" id="floating-photo-elem" src="fotos/quintal.jpg" alt="Nós duas" />
+              <img class="floating-photo-img" id="floating-photo-elem" src="imagemduda/bebe.jpeg" alt="Nós duas" />
             </div>
           </div>
 
@@ -1710,7 +1712,7 @@
     </div>
   </div>
 
-  <!-- MODAL UNIVERSAL -->
+  <!-- MODAL UNIVERSAL PARA FLORES E POTE -->
   <div class="dialog-backdrop" id="universal-modal">
     <div class="magic-dialog-card">
       <span class="dialog-tag" id="modal-tag">Pílula de Luz</span>
@@ -1725,7 +1727,7 @@
     </div>
   </div>
 
-  <!-- MODAL POLAROID -->
+  <!-- MODAL POLAROID MÁGICA -->
   <div class="dialog-backdrop" id="polaroid-modal">
     <div class="polaroid-frame" id="polaroid-card">
       <div class="polaroid-tape"></div>
@@ -1742,20 +1744,25 @@
   </div>
 
   <script>
-    /* SENHA SECRETA */
+    /* ========================================================== */
+    /* CONFIGURAÇÃO DA SENHA DE ENTRADA                           */
+    /* ========================================================== */
     const SENHA_SECRETA = "chucruta1403";
 
-    /* CONFIGURAÇÃO DA ETAPA 5: VÍDEO E FOTOS */
-    const VIDEO_FALA_SRC = "videos/mensagem_eloiza.mp4";
-
+    /* ========================================================== */
+    /* CONFIGURAÇÃO DAS SUAS FOTOS E VÍDEOS REAIS (imagemduda/)   */
+    /* ========================================================== */
     const FOTOS_DURANTE_FALA = [
-      "fotos/quintal.jpg",
-      "fotos/escola.jpg",
-      "fotos/cachoeira.mp4",
-      "fotos/quinze_anos.jpg",
-      "fotos/livros.jpg",
-      "fotos/aniversarios.jpg",
-      "fotos/nosso_lar.mp4"
+      "imagemduda/bebe.jpeg",
+      "imagemduda/escola.jpeg",
+      "imagemduda/doida.mp4",
+      "imagemduda/bestf.jpeg",
+      "imagemduda/dudaelo.jpeg",
+      "imagemduda/eloduda.jpeg",
+      "imagemduda/gemea.jpeg",
+      "imagemduda/livro.jpeg",
+      "imagemduda/aniversário.jpeg",
+      "imagemduda/nossolar.jpeg"
     ];
 
     const FRASES_SINTONIA_VIDEO = [
@@ -1768,54 +1775,54 @@
       "✦ Eu te amo em todas as versões que já fomos e que ainda vamos ser ✦"
     ];
 
-    /* CONFIGURAÇÃO DAS MEMÓRIAS DA CONSTELAÇÃO (ETAPA 4) */
+    /* CONFIGURAÇÃO DAS 7 MEMÓRIAS DA CONSTELAÇÃO */
     const CONSTELACAO_MEMORIAS = [
       {
         titulo: "O Nosso Primeiro Reino",
         frase: "“Eu já nasci conhecendo você. O quintal foi o nosso primeiro mundo, onde a gente aprendeu desde cedo a nunca mais soltar a mão uma da outra.”",
-        midia: "fotos/quintal.jpg",
+        midia: "imagemduda/bebe.jpeg",
         iconeFallback: "🏡",
         legendaFallback: "Desde os primeiros passos juntas"
       },
       {
         titulo: "Intervalos, Corredores e Segredos",
         frase: "“Dividir a escola com você era ter a certeza de que qualquer dia comum virava festa. Entre cadernos e risos baixos, a gente crescia sem pressa.”",
-        midia: "fotos/escola.jpg",
+        midia: "imagemduda/escola.jpeg",
         iconeFallback: "🎒",
         legendaFallback: "Cúmplices de uniforme e vida"
       },
       {
         titulo: "Onde a Gente Era Só Liberdade",
-        frase: "“A água gelada da cachoeira, as gargalhadas sem fim e aquela sensação gostosa de que nada no mundo importava quando estávamos juntas.”",
-        midia: "fotos/cachoeira.mp4",
+        frase: "“As gargalhadas sem fim e aquela sensação gostosa de que nada no mundo importava quando estávamos juntas rindo à toa.”",
+        midia: "imagemduda/doida.mp4",
         iconeFallback: "🌊",
-        legendaFallback: "Nossos dias de sol e risada solta"
+        legendaFallback: "Nossos momentos em movimento"
       },
       {
-        titulo: "O Teu Dia de Brilhar",
-        frase: "“Te ver linda nos seus 15 anos, tão radiante... Eu sempre tive um orgulho imenso de estar na primeira fila aplaudindo e comemorando a sua vida.”",
-        midia: "fotos/quinze_anos.jpg",
+        titulo: "Almas Gêmeas",
+        frase: "“Tão parecidas, tão unidas... Eu sempre tive um orgulho imenso de estar na primeira fila aplaudindo e comemorando a sua vida em cada fase.”",
+        midia: "imagemduda/gemea.jpeg",
         iconeFallback: "👑",
-        legendaFallback: "Meu orgulho em cada fase"
+        legendaFallback: "Irmãs de alma em todas as fases"
       },
       {
         titulo: "Páginas, Sonhos e Planos",
-        frase: "“Dividir mundos inteiros em cada livro lido, sonhar acordada com você e ter a certeza de que não existe plano meu que você não apoie de verdade.”",
-        midia: "fotos/livros.jpg",
+        frase: "“Dividir mundos inteiros em cada história lida, sonhar acordada com você e ter a certeza de que não existe plano meu que você não apoie de verdade.”",
+        midia: "imagemduda/livro.jpeg",
         iconeFallback: "📖",
         legendaFallback: "Sonhando e conversando até tarde"
       },
       {
         titulo: "Você Nunca Faltou",
         frase: "“Perto ou longe, você sempre se faz presente em cada aniversário meu. Saber que você existe do outro lado é o melhor presente que eu poderia ter.”",
-        midia: "fotos/aniversarios.jpg",
+        midia: "imagemduda/aniversário.jpeg",
         iconeFallback: "🎂",
         legendaFallback: "A minha maior certeza"
       },
       {
         titulo: "O Lar Que Encontrei em Você",
         frase: "“Estar com você é me sentir em paz, completa e acolhida. Você é a minha alma gêmea, minha irmã de vida e o lugar para onde meu coração sempre volta.”",
-        midia: "fotos/nosso_lar.mp4",
+        midia: "imagemduda/nossolar.jpeg",
         iconeFallback: "💖",
         legendaFallback: "Minha pessoa favorita no mundo"
       }
@@ -2457,7 +2464,7 @@
 
       if (isVideo) {
         polaroidImgBox.innerHTML = `
-          <video class="polaroid-real-img" src="${mem.midia}" autoplay loop muted playsinline
+          <video class="polaroid-real-img" src="${encodeURI(mem.midia)}" autoplay loop muted playsinline
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"></video>
           <div class="polaroid-placeholder-art" style="display:none;">
             <span>${mem.iconeFallback}</span>
@@ -2466,7 +2473,7 @@
         `;
       } else {
         polaroidImgBox.innerHTML = `
-          <img class="polaroid-real-img" src="${mem.midia}" alt="${mem.titulo}" 
+          <img class="polaroid-real-img" src="${encodeURI(mem.midia)}" alt="${mem.titulo}" 
                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
           <div class="polaroid-placeholder-art" style="display:none;">
             <span>${mem.iconeFallback}</span>
@@ -2490,13 +2497,16 @@
       });
     });
 
+    // Clicar na estrela de Eloiza mostra a foto eloduda.jpeg
     document.getElementById('star-anchor-eloiza').addEventListener('click', () => {
       unlockAudioOnFirstTouch();
       playSoftStarChime();
       polaroidTitle.textContent = "Eloiza • Onde Eu Estiver";
       polaroidQuote.textContent = "“Mesmo longe, em Minas Gerais, você continua sendo o lugar para onde meu coração sempre volta para descansar.”";
       polaroidImgBox.innerHTML = `
-        <div class="polaroid-placeholder-art" style="display:flex;">
+        <img class="polaroid-real-img" src="imagemduda/eloduda.jpeg" alt="Eloiza e Eduarda" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="polaroid-placeholder-art" style="display:none;">
           <span style="font-size:2.8rem;">⭐</span>
           <p>Ligada a você pelo coração</p>
         </div>
@@ -2504,13 +2514,16 @@
       polaroidModal.classList.add('open');
     });
 
+    // Clicar na estrela de Eduarda mostra a foto dudaelo.jpeg
     document.getElementById('star-anchor-duda').addEventListener('click', () => {
       unlockAudioOnFirstTouch();
       playSoftStarChime();
       polaroidTitle.textContent = "Eduarda • Minha Alma Gêmea";
       polaroidQuote.textContent = "“Você é inteligente, meiga, incrível e meu maior presente. A distância nunca vai diminuir nem um milímetro do amor gigante que tenho por você.”";
       polaroidImgBox.innerHTML = `
-        <div class="polaroid-placeholder-art" style="display:flex;">
+        <img class="polaroid-real-img" src="imagemduda/dudaelo.jpeg" alt="Eduarda e Eloiza" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="polaroid-placeholder-art" style="display:none;">
           <span style="font-size:2.8rem;">💖</span>
           <p>Minha pessoa favorita no mundo</p>
         </div>
@@ -2561,7 +2574,7 @@
 
         floatingPhotoBadge.classList.remove('visible');
         setTimeout(() => {
-          floatingPhotoElem.src = FOTOS_DURANTE_FALA[photoIndex];
+          floatingPhotoElem.src = encodeURI(FOTOS_DURANTE_FALA[photoIndex]);
           floatingPhotoBadge.classList.add('visible');
         }, 500);
 
