@@ -1637,11 +1637,10 @@
 
         <div class="video-experience-card">
           <div class="video-viewport">
-            <!-- VÍDEO PRINCIPAL DE VOCÊ FALANDO -->
+            <!-- VÍDEO PRINCIPAL DE VOCÊ FALANDO (COM CONTROLES PARA PAUSAR QUANDO QUISER) -->
             <video class="main-video-element" id="main-voice-video" playsinline preload="metadata">
               <source src="imagemduda/doida.mp4" type="video/mp4">
               <source src="doida.mp4" type="video/mp4">
-              <source src="videos/mensagem_eloiza.mp4" type="video/mp4">
               Seu navegador não suporta vídeos.
             </video>
 
@@ -1653,7 +1652,7 @@
               <p style="font-size:0.8rem; color:var(--accent-lilac);">Toca para dar play na mensagem</p>
             </div>
 
-            <!-- VÍDEO FOTOFALA NO QUADRADINHO (5 MINUTOS DE FOTOS E VÍDEOS) -->
+            <!-- VÍDEO FOTOFALA NO QUADRADINHO (SEU VÍDEO DE 5 MINUTOS COM AS FOTOS) -->
             <div class="floating-photo-overlay" id="floating-photo-badge">
               <video class="floating-photo-img" id="floating-video-elem" playsinline muted loop preload="auto">
                 <source src="imagemduda/fotofala.mp4" type="video/mp4">
@@ -1668,7 +1667,7 @@
           </div>
         </div>
 
-        <div final-letter-card class="final-letter-card" id="final-letter-block">
+        <div class="final-letter-card" id="final-letter-block">
           <h3 class="letter-title">Para sempre o seu cantinho</h3>
           
           <div class="letter-body">
@@ -1756,7 +1755,7 @@
   <script>
     /* ==============================================================================
        🌟 CONFIGURACAO_ARQUIVOS (FOTOS E VÍDEOS) 🌟
-       (DICA: Pressione Ctrl + F e busque por CONFIGURACAO_ARQUIVOS para achar rápido!)
+       (DICA: Pressione Ctrl + F e digite CONFIGURACAO_ARQUIVOS para achar em 1 segundo!)
        ============================================================================== */
 
     // 1. SENHA SECRETA DA PORTA:
@@ -1765,7 +1764,7 @@
     // 2. VÍDEO PRINCIPAL (Você falando na Mensagem Final):
     const VIDEO_FALA_SRC = "imagemduda/doida.mp4";
 
-    // 3. VÍDEO DO QUADRADINHO (O seu vídeo de 5 minutos com as fotos):
+    // 3. VÍDEO DO QUADRADINHO (Seu vídeo de 5 minutos com as fotos):
     const VIDEO_FOTOFALA_SRC = "imagemduda/fotofala.mp4";
 
     // 4. FRASES QUE PASSAM ABAIXO DO VÍDEO:
@@ -1798,7 +1797,7 @@
       {
         titulo: "Onde a Gente Era Só Liberdade",
         frase: "“As gargalhadas sem fim e aquela sensação gostosa de que nada no mundo importava quando estávamos juntas rindo à toa.”",
-        midia: "imagemduda/doida.mp4", // Vídeo doida
+        midia: "imagemduda/doida.mp4", // Vídeo doida (AGORA COM ÁUDIO!)
         iconeFallback: "🌊",
         legendaFallback: "Nossos momentos em movimento"
       },
@@ -2185,7 +2184,23 @@
     const roomNameText = document.getElementById('room-name-text');
     const stageContainer = document.querySelector('.stage-container');
 
+    function stopStage5Videos() {
+      try {
+        if (mainVoiceVideo) {
+          mainVoiceVideo.pause();
+        }
+        if (floatingVideoElem) {
+          floatingVideoElem.pause();
+        }
+        if (subtitleTimer) {
+          clearInterval(subtitleTimer);
+          subtitleTimer = null;
+        }
+      } catch(e) {}
+    }
+
     function hideAllStages() {
+      stopStage5Videos();
       stage1.classList.remove('active');
       stageHall.classList.remove('active');
       stage2.classList.remove('active');
@@ -2462,7 +2477,6 @@
 
     function openMemoryPolaroid(index) {
       unlockAudioOnFirstTouch();
-      playSoftStarChime();
       const mem = CONSTELACAO_MEMORIAS[index];
 
       polaroidTitle.textContent = mem.titulo;
@@ -2471,8 +2485,12 @@
       const isVideo = /\.(mp4|mov|webm)$/i.test(mem.midia);
 
       if (isVideo) {
+        // Pausa a música de fundo para o som do vídeo tocar limpo!
+        stopSoftAmbientLoop();
+
         polaroidImgBox.innerHTML = `
-          <video class="polaroid-real-img" src="${encodeURI(mem.midia)}" autoplay loop muted playsinline
+          <video class="polaroid-real-img" src="${encodeURI(mem.midia)}" controls autoplay playsinline
+                 style="background:#000;"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"></video>
           <div class="polaroid-placeholder-art" style="display:none;">
             <span>${mem.iconeFallback}</span>
@@ -2480,6 +2498,7 @@
           </div>
         `;
       } else {
+        playSoftStarChime();
         polaroidImgBox.innerHTML = `
           <img class="polaroid-real-img" src="${encodeURI(mem.midia)}" alt="${mem.titulo}" 
                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
@@ -2541,8 +2560,15 @@
 
     function closePolaroidModal() {
       const vid = polaroidImgBox.querySelector('video');
-      if (vid) vid.pause();
+      if (vid) {
+        vid.pause();
+        vid.currentTime = 0;
+      }
       polaroidModal.classList.remove('open');
+      // Se não estiver na Sala 5 e não estiver mudo, retoma a caixinha de música
+      if (!isSoundMuted && !stage5.classList.contains('active')) {
+        startSoftAmbientLoop();
+      }
     }
 
     btnClosePolaroid.addEventListener('click', closePolaroidModal);
@@ -2564,12 +2590,15 @@
     let subtitleIndex = 0;
 
     function startVideoExperience() {
-      stopSoftAmbientLoop();
+      stopSoftAmbientLoop(); // Pausa a melodia de fundo para sua voz sobressair
       
       videoPlayCover.style.opacity = '0';
       setTimeout(() => {
         videoPlayCover.style.display = 'none';
       }, 500);
+
+      // Ativa os controles para pausar/dar play quando quiser!
+      mainVoiceVideo.controls = true;
 
       // Inicia o vídeo principal falando
       mainVoiceVideo.play().catch(e => {
@@ -2585,6 +2614,7 @@
       }
 
       // Cicla as legendas de afeto a cada 5 segundos
+      if (subtitleTimer) clearInterval(subtitleTimer);
       subtitleTimer = setInterval(() => {
         subtitleIndex = (subtitleIndex + 1) % FRASES_SINTONIA_VIDEO.length;
         subtitlesDisplay.style.opacity = '0';
