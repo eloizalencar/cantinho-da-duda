@@ -861,10 +861,10 @@
       color: #1a162b;
     }
 
-    /* Polaroids */
+    /* Polaroids com ajuste completo sem corte de cabeça */
     .polaroid-frame {
       width: 100%;
-      max-width: 330px;
+      max-width: 340px;
       background: #faf8f5;
       border-radius: 4px;
       padding: 14px 14px 20px;
@@ -889,8 +889,8 @@
 
     .polaroid-img-box {
       width: 100%;
-      height: 230px;
-      background: #e9e4dc;
+      height: 300px;
+      background: #e4e0d7;
       border-radius: 2px;
       overflow: hidden;
       position: relative;
@@ -903,7 +903,7 @@
     .polaroid-real-img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* MOSTRA A FOTO 100% INTEIRA SEM CORTAR A CABEÇA! */
       display: block;
     }
 
@@ -1047,26 +1047,27 @@
       transform: scale(1.08);
     }
 
+    /* Moldura Flutuante do Vídeo FOTOFALA */
     .floating-photo-overlay {
       position: absolute;
       top: 14px;
       right: 14px;
-      width: 90px;
-      height: 110px;
+      width: 110px;
+      height: 145px;
       background: #faf8f5;
-      padding: 5px 5px 14px;
-      border-radius: 3px;
+      padding: 6px 6px 18px;
+      border-radius: 4px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-      transform: rotate(4deg);
+      transform: rotate(3deg);
       z-index: 8;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 1s ease, transform 1s ease;
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
     .floating-photo-overlay.visible {
-      opacity: 0.95;
-      transform: rotate(2deg) scale(1.02);
+      opacity: 1;
+      transform: rotate(1.5deg) scale(1.02);
     }
 
     .floating-photo-img {
@@ -1075,6 +1076,7 @@
       object-fit: cover;
       display: block;
       border-radius: 2px;
+      background: #000;
     }
 
     .subtitles-flow-area {
@@ -1635,7 +1637,10 @@
 
         <div class="video-experience-card">
           <div class="video-viewport">
+            <!-- VÍDEO PRINCIPAL DE VOCÊ FALANDO -->
             <video class="main-video-element" id="main-voice-video" playsinline preload="metadata">
+              <source src="imagemduda/doida.mp4" type="video/mp4">
+              <source src="doida.mp4" type="video/mp4">
               <source src="videos/mensagem_eloiza.mp4" type="video/mp4">
               Seu navegador não suporta vídeos.
             </video>
@@ -1648,8 +1653,13 @@
               <p style="font-size:0.8rem; color:var(--accent-lilac);">Toca para dar play na mensagem</p>
             </div>
 
+            <!-- VÍDEO FOTOFALA NO QUADRADINHO (5 MINUTOS DE FOTOS E VÍDEOS) -->
             <div class="floating-photo-overlay" id="floating-photo-badge">
-              <img class="floating-photo-img" id="floating-photo-elem" src="imagemduda/bebe.jpeg" alt="Nós duas" />
+              <video class="floating-photo-img" id="floating-video-elem" playsinline muted loop preload="auto">
+                <source src="imagemduda/fotofala.mp4" type="video/mp4">
+                <source src="imagemduda/fotofala.mov" type="video/quicktime">
+                <source src="fotofala.mp4" type="video/mp4">
+              </video>
             </div>
           </div>
 
@@ -1658,7 +1668,7 @@
           </div>
         </div>
 
-        <div class="final-letter-card" id="final-letter-block">
+        <div final-letter-card class="final-letter-card" id="final-letter-block">
           <h3 class="letter-title">Para sempre o seu cantinho</h3>
           
           <div class="letter-body">
@@ -1744,27 +1754,21 @@
   </div>
 
   <script>
-    /* ========================================================== */
-    /* CONFIGURAÇÃO DA SENHA DE ENTRADA                           */
-    /* ========================================================== */
+    /* ==============================================================================
+       🌟 CONFIGURACAO_ARQUIVOS (FOTOS E VÍDEOS) 🌟
+       (DICA: Pressione Ctrl + F e busque por CONFIGURACAO_ARQUIVOS para achar rápido!)
+       ============================================================================== */
+
+    // 1. SENHA SECRETA DA PORTA:
     const SENHA_SECRETA = "chucruta1403";
 
-    /* ========================================================== */
-    /* CONFIGURAÇÃO DAS SUAS FOTOS E VÍDEOS REAIS (imagemduda/)   */
-    /* ========================================================== */
-    const FOTOS_DURANTE_FALA = [
-      "imagemduda/bebe.jpeg",
-      "imagemduda/escola.jpeg",
-      "imagemduda/doida.mp4",
-      "imagemduda/bestf.jpeg",
-      "imagemduda/dudaelo.jpeg",
-      "imagemduda/eloduda.jpeg",
-      "imagemduda/gemea.jpeg",
-      "imagemduda/livro.jpeg",
-      "imagemduda/aniversário.jpeg",
-      "imagemduda/nossolar.jpeg"
-    ];
+    // 2. VÍDEO PRINCIPAL (Você falando na Mensagem Final):
+    const VIDEO_FALA_SRC = "imagemduda/doida.mp4";
 
+    // 3. VÍDEO DO QUADRADINHO (O seu vídeo de 5 minutos com as fotos):
+    const VIDEO_FOTOFALA_SRC = "imagemduda/fotofala.mp4";
+
+    // 4. FRASES QUE PASSAM ABAIXO DO VÍDEO:
     const FRASES_SINTONIA_VIDEO = [
       "✦ Você é uma das pessoas mais importantes da minha vida ✦",
       "✦ Eu admiro quem você é e tudo o que você construiu ✦",
@@ -1775,58 +1779,62 @@
       "✦ Eu te amo em todas as versões que já fomos e que ainda vamos ser ✦"
     ];
 
-    /* CONFIGURAÇÃO DAS 7 MEMÓRIAS DA CONSTELAÇÃO */
+    // 5. AS 7 MEMÓRIAS DA CONSTELAÇÃO (ETAPA 4):
     const CONSTELACAO_MEMORIAS = [
       {
         titulo: "O Nosso Primeiro Reino",
         frase: "“Eu já nasci conhecendo você. O quintal foi o nosso primeiro mundo, onde a gente aprendeu desde cedo a nunca mais soltar a mão uma da outra.”",
-        midia: "imagemduda/bebe.jpeg",
+        midia: "imagemduda/JPEG", // Foto do quintal (arquivo JPEG)
         iconeFallback: "🏡",
         legendaFallback: "Desde os primeiros passos juntas"
       },
       {
         titulo: "Intervalos, Corredores e Segredos",
         frase: "“Dividir a escola com você era ter a certeza de que qualquer dia comum virava festa. Entre cadernos e risos baixos, a gente crescia sem pressa.”",
-        midia: "imagemduda/escola.jpeg",
+        midia: "imagemduda/escola.jpeg", // Foto da escola
         iconeFallback: "🎒",
         legendaFallback: "Cúmplices de uniforme e vida"
       },
       {
         titulo: "Onde a Gente Era Só Liberdade",
         frase: "“As gargalhadas sem fim e aquela sensação gostosa de que nada no mundo importava quando estávamos juntas rindo à toa.”",
-        midia: "imagemduda/doida.mp4",
+        midia: "imagemduda/doida.mp4", // Vídeo doida
         iconeFallback: "🌊",
         legendaFallback: "Nossos momentos em movimento"
       },
       {
         titulo: "Almas Gêmeas",
         frase: "“Tão parecidas, tão unidas... Eu sempre tive um orgulho imenso de estar na primeira fila aplaudindo e comemorando a sua vida em cada fase.”",
-        midia: "imagemduda/gemea.jpeg",
+        midia: "imagemduda/gemea.jpeg", // Foto gemea
         iconeFallback: "👑",
         legendaFallback: "Irmãs de alma em todas as fases"
       },
       {
         titulo: "Páginas, Sonhos e Planos",
         frase: "“Dividir mundos inteiros em cada história lida, sonhar acordada com você e ter a certeza de que não existe plano meu que você não apoie de verdade.”",
-        midia: "imagemduda/livro.jpeg",
+        midia: "imagemduda/livro.jpeg", // Foto livro
         iconeFallback: "📖",
         legendaFallback: "Sonhando e conversando até tarde"
       },
       {
         titulo: "Você Nunca Faltou",
         frase: "“Perto ou longe, você sempre se faz presente em cada aniversário meu. Saber que você existe do outro lado é o melhor presente que eu poderia ter.”",
-        midia: "imagemduda/aniversário.jpeg",
+        midia: "imagemduda/aniversário.jpeg", // Foto aniversário
         iconeFallback: "🎂",
         legendaFallback: "A minha maior certeza"
       },
       {
         titulo: "O Lar Que Encontrei em Você",
         frase: "“Estar com você é me sentir em paz, completa e acolhida. Você é a minha alma gêmea, minha irmã de vida e o lugar para onde meu coração sempre volta.”",
-        midia: "imagemduda/nossolar.jpeg",
+        midia: "imagemduda/nossolar.jpeg", // Foto nosso lar
         iconeFallback: "💖",
         legendaFallback: "Minha pessoa favorita no mundo"
       }
     ];
+
+    // 6. FOTOS DAS ESTRELAS PRINCIPAIS (ELOIZA E EDUARDA):
+    const FOTO_ESTRELA_ELOIZA = "imagemduda/eloduda.jpeg";
+    const FOTO_ESTRELA_EDUARDA = "imagemduda/dudaelo.jpeg";
 
     /* DADOS: 5 FLORES */
     const JARDIM_FLORES = [
@@ -2051,7 +2059,7 @@
     drawSky();
 
     /* ========================================================== */
-    /* MOTOR DE ÁUDIO WEB AUDIO API (100% NATIVO E CONFIÁVEL)     */
+    /* MOTOR DE ÁUDIO WEB AUDIO API                               */
     /* ========================================================== */
     let audioCtx = null;
     let isSoundMuted = false;
@@ -2497,14 +2505,14 @@
       });
     });
 
-    // Clicar na estrela de Eloiza mostra a foto eloduda.jpeg
+    // Estrela de Eloiza
     document.getElementById('star-anchor-eloiza').addEventListener('click', () => {
       unlockAudioOnFirstTouch();
       playSoftStarChime();
       polaroidTitle.textContent = "Eloiza • Onde Eu Estiver";
       polaroidQuote.textContent = "“Mesmo longe, em Minas Gerais, você continua sendo o lugar para onde meu coração sempre volta para descansar.”";
       polaroidImgBox.innerHTML = `
-        <img class="polaroid-real-img" src="imagemduda/eloduda.jpeg" alt="Eloiza e Eduarda" 
+        <img class="polaroid-real-img" src="${FOTO_ESTRELA_ELOIZA}" alt="Eloiza e Eduarda" 
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="polaroid-placeholder-art" style="display:none;">
           <span style="font-size:2.8rem;">⭐</span>
@@ -2514,14 +2522,14 @@
       polaroidModal.classList.add('open');
     });
 
-    // Clicar na estrela de Eduarda mostra a foto dudaelo.jpeg
+    // Estrela de Eduarda
     document.getElementById('star-anchor-duda').addEventListener('click', () => {
       unlockAudioOnFirstTouch();
       playSoftStarChime();
       polaroidTitle.textContent = "Eduarda • Minha Alma Gêmea";
       polaroidQuote.textContent = "“Você é inteligente, meiga, incrível e meu maior presente. A distância nunca vai diminuir nem um milímetro do amor gigante que tenho por você.”";
       polaroidImgBox.innerHTML = `
-        <img class="polaroid-real-img" src="imagemduda/dudaelo.jpeg" alt="Eduarda e Eloiza" 
+        <img class="polaroid-real-img" src="${FOTO_ESTRELA_EDUARDA}" alt="Eduarda e Eloiza" 
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="polaroid-placeholder-art" style="display:none;">
           <span style="font-size:2.8rem;">💖</span>
@@ -2542,16 +2550,17 @@
       if (e.target === polaroidModal) closePolaroidModal();
     });
 
-    /* EXECUÇÃO DA ETAPA 5 */
+    /* ========================================================== */
+    /* EXECUÇÃO DA ETAPA 5: VÍDEO FALANDO + VÍDEO FOTOFALA        */
+    /* ========================================================== */
     const mainVoiceVideo = document.getElementById('main-voice-video');
     const videoPlayCover = document.getElementById('video-play-cover');
     const floatingPhotoBadge = document.getElementById('floating-photo-badge');
-    const floatingPhotoElem = document.getElementById('floating-photo-elem');
+    const floatingVideoElem = document.getElementById('floating-video-elem');
     const subtitlesDisplay = document.getElementById('subtitles-display');
     const finalLetterBlock = document.getElementById('final-letter-block');
 
-    let videoIntervalTimer = null;
-    let photoIndex = 0;
+    let subtitleTimer = null;
     let subtitleIndex = 0;
 
     function startVideoExperience() {
@@ -2562,34 +2571,33 @@
         videoPlayCover.style.display = 'none';
       }, 500);
 
+      // Inicia o vídeo principal falando
       mainVoiceVideo.play().catch(e => {
-        console.log("Vídeo demonstrativo aguardando arquivo local: ", e);
+        console.log("Aguardando vídeo principal: ", e);
       });
 
+      // Mostra e inicia o vídeo fotofala no quadradinho flutuante
       floatingPhotoBadge.classList.add('visible');
+      if (floatingVideoElem) {
+        floatingVideoElem.play().catch(e => {
+          console.log("Aguardando vídeo fotofala: ", e);
+        });
+      }
 
-      videoIntervalTimer = setInterval(() => {
-        photoIndex = (photoIndex + 1) % FOTOS_DURANTE_FALA.length;
+      // Cicla as legendas de afeto a cada 5 segundos
+      subtitleTimer = setInterval(() => {
         subtitleIndex = (subtitleIndex + 1) % FRASES_SINTONIA_VIDEO.length;
-
-        floatingPhotoBadge.classList.remove('visible');
-        setTimeout(() => {
-          floatingPhotoElem.src = encodeURI(FOTOS_DURANTE_FALA[photoIndex]);
-          floatingPhotoBadge.classList.add('visible');
-        }, 500);
-
         subtitlesDisplay.style.opacity = '0';
         setTimeout(() => {
           subtitlesDisplay.textContent = FRASES_SINTONIA_VIDEO[subtitleIndex];
           subtitlesDisplay.style.opacity = '1';
         }, 400);
-
-      }, 4500);
+      }, 5000);
     }
 
     function onVideoEnded() {
-      if (videoIntervalTimer) clearInterval(videoIntervalTimer);
-      floatingPhotoBadge.classList.remove('visible');
+      if (subtitleTimer) clearInterval(subtitleTimer);
+      if (floatingVideoElem) floatingVideoElem.pause();
       
       createShootingStarShower();
       playMagicalChime();
@@ -2602,8 +2610,15 @@
     videoPlayCover.addEventListener('click', startVideoExperience);
     mainVoiceVideo.addEventListener('ended', onVideoEnded);
 
-    mainVoiceVideo.addEventListener('play', () => stopSoftAmbientLoop());
-    mainVoiceVideo.addEventListener('pause', () => startSoftAmbientLoop());
+    mainVoiceVideo.addEventListener('play', () => {
+      stopSoftAmbientLoop();
+      if (floatingVideoElem) floatingVideoElem.play().catch(e => console.log(e));
+    });
+
+    mainVoiceVideo.addEventListener('pause', () => {
+      startSoftAmbientLoop();
+      if (floatingVideoElem) floatingVideoElem.pause();
+    });
 
     function spawnPetals(originX, originY, color) {
       for (let i = 0; i < 14; i++) {
