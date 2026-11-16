@@ -1637,7 +1637,7 @@
 
         <div class="video-experience-card">
           <div class="video-viewport">
-            <!-- VÍDEO PRINCIPAL DE VOCÊ FALANDO (COM CONTROLES PARA PAUSAR QUANDO QUISER) -->
+            <!-- VÍDEO PRINCIPAL DE VOCÊ FALANDO (ami.mp4) -->
             <video class="main-video-element" id="main-voice-video" playsinline preload="metadata">
               <source src="imagemduda/ami.mp4" type="video/mp4">
               <source src="ami.mp4" type="video/mp4">
@@ -1783,7 +1783,7 @@
       {
         titulo: "O Nosso Primeiro Reino",
         frase: "“Eu já nasci conhecendo você. O quintal foi o nosso primeiro mundo, onde a gente aprendeu desde cedo a nunca mais soltar a mão uma da outra.”",
-        midia: "imagemduda/quintal.jpeg", // Foto do quintal (arquivo JPEG)
+        midia: "imagemduda/quintal.jpeg", // Foto do quintal
         iconeFallback: "🏡",
         legendaFallback: "Desde os primeiros passos juntas"
       },
@@ -1797,7 +1797,7 @@
       {
         titulo: "Onde a Gente Era Só Liberdade",
         frase: "“As gargalhadas sem fim e aquela sensação gostosa de que nada no mundo importava quando estávamos juntas rindo à toa.”",
-        midia: "imagemduda/doida.mp4", // Vídeo doida (AGORA COM ÁUDIO!)
+        midia: "imagemduda/doida.mp4", // Vídeo doida (COM ÁUDIO!)
         iconeFallback: "🌊",
         legendaFallback: "Nossos momentos em movimento"
       },
@@ -2577,7 +2577,7 @@
     });
 
     /* ========================================================== */
-    /* EXECUÇÃO DA ETAPA 5: VÍDEO FALANDO + VÍDEO FOTOFALA        */
+    /* EXECUÇÃO DA ETAPA 5: VÍDEO FALANDO (ami.mp4) + FOTOFALA    */
     /* ========================================================== */
     const mainVoiceVideo = document.getElementById('main-voice-video');
     const videoPlayCover = document.getElementById('video-play-cover');
@@ -2585,6 +2585,14 @@
     const floatingVideoElem = document.getElementById('floating-video-elem');
     const subtitlesDisplay = document.getElementById('subtitles-display');
     const finalLetterBlock = document.getElementById('final-letter-block');
+
+    // Vincula as fontes do topo diretamente nos elementos de vídeo
+    if (mainVoiceVideo) {
+      mainVoiceVideo.src = VIDEO_FALA_SRC;
+    }
+    if (floatingVideoElem) {
+      floatingVideoElem.src = VIDEO_FOTOFALA_SRC;
+    }
 
     let subtitleTimer = null;
     let subtitleIndex = 0;
@@ -2600,7 +2608,7 @@
       // Ativa os controles para pausar/dar play quando quiser!
       mainVoiceVideo.controls = true;
 
-      // Inicia o vídeo principal falando
+      // Inicia o vídeo principal falando (ami.mp4)
       mainVoiceVideo.play().catch(e => {
         console.log("Aguardando vídeo principal: ", e);
       });
