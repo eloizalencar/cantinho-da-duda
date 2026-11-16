@@ -903,7 +903,7 @@
     .polaroid-real-img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* MOSTRA A FOTO 100% INTEIRA SEM CORTAR A CABEÇA! */
+      object-fit: contain;
       display: block;
     }
 
@@ -1047,18 +1047,18 @@
       transform: scale(1.08);
     }
 
-    /* Moldura Flutuante do Vídeo FOTOFALA */
+    /* Moldura Flutuante do Vídeo FOTOFALA (Canto Inferior Esquerdo para não cobrir o rosto) */
     .floating-photo-overlay {
       position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 110px;
-      height: 145px;
+      bottom: 42px;
+      left: 12px;
+      width: 84px;
+      height: 112px;
       background: #faf8f5;
-      padding: 6px 6px 18px;
+      padding: 5px 5px 14px;
       border-radius: 4px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-      transform: rotate(3deg);
+      transform: rotate(-3deg);
       z-index: 8;
       pointer-events: none;
       opacity: 0;
@@ -1067,7 +1067,7 @@
 
     .floating-photo-overlay.visible {
       opacity: 1;
-      transform: rotate(1.5deg) scale(1.02);
+      transform: rotate(-1.5deg) scale(1.02);
     }
 
     .floating-photo-img {
@@ -1652,7 +1652,7 @@
               <p style="font-size:0.8rem; color:var(--accent-lilac);">Toca para dar play na mensagem</p>
             </div>
 
-            <!-- VÍDEO FOTOFALA NO QUADRADINHO (SEU VÍDEO DE 5 MINUTOS COM AS FOTOS) -->
+            <!-- VÍDEO FOTOFALA NO QUADRADINHO (Canto Inferior Esquerdo) -->
             <div class="floating-photo-overlay" id="floating-photo-badge">
               <video class="floating-photo-img" id="floating-video-elem" playsinline muted loop preload="auto">
                 <source src="imagemduda/fotofala.mp4" type="video/mp4">
@@ -1755,7 +1755,6 @@
   <script>
     /* ==============================================================================
        🌟 CONFIGURACAO_ARQUIVOS (FOTOS E VÍDEOS) 🌟
-       (DICA: Pressione Ctrl + F e digite CONFIGURACAO_ARQUIVOS para achar em 1 segundo!)
        ============================================================================== */
 
     // 1. SENHA SECRETA DA PORTA:
@@ -1783,49 +1782,49 @@
       {
         titulo: "O Nosso Primeiro Reino",
         frase: "“Eu já nasci conhecendo você. O quintal foi o nosso primeiro mundo, onde a gente aprendeu desde cedo a nunca mais soltar a mão uma da outra.”",
-        midia: "imagemduda/quintal.jpeg", // Foto do quintal
+        midia: "imagemduda/quintal.jpeg",
         iconeFallback: "🏡",
         legendaFallback: "Desde os primeiros passos juntas"
       },
       {
         titulo: "Intervalos, Corredores e Segredos",
         frase: "“Dividir a escola com você era ter a certeza de que qualquer dia comum virava festa. Entre cadernos e risos baixos, a gente crescia sem pressa.”",
-        midia: "imagemduda/escola.jpeg", // Foto da escola
+        midia: "imagemduda/escola.jpeg",
         iconeFallback: "🎒",
         legendaFallback: "Cúmplices de uniforme e vida"
       },
       {
         titulo: "Onde a Gente Era Só Liberdade",
         frase: "“As gargalhadas sem fim e aquela sensação gostosa de que nada no mundo importava quando estávamos juntas rindo à toa.”",
-        midia: "imagemduda/doida.mp4", // Vídeo doida (COM ÁUDIO!)
+        midia: "imagemduda/doida.mp4",
         iconeFallback: "🌊",
         legendaFallback: "Nossos momentos em movimento"
       },
       {
         titulo: "Almas Gêmeas",
         frase: "“Tão parecidas, tão unidas... Eu sempre tive um orgulho imenso de estar na primeira fila aplaudindo e comemorando a sua vida em cada fase.”",
-        midia: "imagemduda/gemea.jpeg", // Foto gemea
+        midia: "imagemduda/gemea.jpeg",
         iconeFallback: "👑",
         legendaFallback: "Irmãs de alma em todas as fases"
       },
       {
         titulo: "Páginas, Sonhos e Planos",
         frase: "“Dividir mundos inteiros em cada história lida, sonhar acordada com você e ter a certeza de que não existe plano meu que você não apoie de verdade.”",
-        midia: "imagemduda/livro.jpeg", // Foto livro
+        midia: "imagemduda/livro.jpeg",
         iconeFallback: "📖",
         legendaFallback: "Sonhando e conversando até tarde"
       },
       {
         titulo: "Você Nunca Faltou",
         frase: "“Perto ou longe, você sempre se faz presente em cada aniversário meu. Saber que você existe do outro lado é o melhor presente que eu poderia ter.”",
-        midia: "imagemduda/aniversario.jpeg", // Foto aniversário
+        midia: "imagemduda/aniversario.jpeg",
         iconeFallback: "🎂",
         legendaFallback: "A minha maior certeza"
       },
       {
         titulo: "O Lar Que Encontrei em Você",
         frase: "“Estar com você é me sentir em paz, completa e acolhida. Você é a minha alma gêmea, minha irmã de vida e o lugar para onde meu coração sempre volta.”",
-        midia: "imagemduda/nossolar.jpeg", // Foto nosso lar
+        midia: "imagemduda/nossolar.jpeg",
         iconeFallback: "💖",
         legendaFallback: "Minha pessoa favorita no mundo"
       }
@@ -2058,7 +2057,7 @@
     drawSky();
 
     /* ========================================================== */
-    /* MOTOR DE ÁUDIO WEB AUDIO API                               */
+    /* MOTOR DE ÁUDIO BLINDADO (FUNCIONA NO IPHONE E ANDROID)    */
     /* ========================================================== */
     let audioCtx = null;
     let isSoundMuted = false;
@@ -2067,15 +2066,17 @@
     function getAudioContext() {
       if (!audioCtx) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContext();
+        if (AudioContext) {
+          audioCtx = new AudioContext();
+        }
       }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
       }
       return audioCtx;
     }
 
-    function playNote(freq, startOffset, duration, gainVal = 0.08) {
+    function playNote(freq, startOffset, duration, gainVal = 0.15) {
       if (isSoundMuted) return;
       try {
         const ctx = getAudioContext();
@@ -2102,7 +2103,7 @@
         osc.start(startTime);
         osc.stop(startTime + duration + 0.1);
       } catch (err) {
-        console.warn("Áudio aguardando interação:", err);
+        console.warn("Áudio:", err);
       }
     }
 
@@ -2111,7 +2112,7 @@
       getAudioContext();
       const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
       notes.forEach((freq, i) => {
-        playNote(freq, i * 0.1, 1.5, 0.09);
+        playNote(freq, i * 0.1, 1.5, 0.16);
       });
     }
 
@@ -2120,21 +2121,22 @@
       getAudioContext();
       const notes = [659.25, 783.99, 987.77, 1318.51];
       notes.forEach((freq, i) => {
-        playNote(freq, i * 0.09, 1.8, 0.09);
+        playNote(freq, i * 0.09, 1.8, 0.16);
       });
     }
 
     function startSoftAmbientLoop() {
       if (synthTimer || isSoundMuted) return;
-      const ctx = getAudioContext();
+      getAudioContext();
       const scale = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25];
-      playNote(scale[Math.floor(Math.random() * scale.length)], 0, 2.5, 0.05);
+      
+      playNote(scale[Math.floor(Math.random() * scale.length)], 0.05, 2.5, 0.11);
 
       synthTimer = setInterval(() => {
         if (isSoundMuted) return;
         const note = scale[Math.floor(Math.random() * scale.length)];
-        playNote(note, 0, 3.0, 0.05);
-      }, 3000);
+        playNote(note, 0, 3.0, 0.11);
+      }, 2800);
     }
 
     function stopSoftAmbientLoop() {
@@ -2148,8 +2150,11 @@
     const iconSoundOn = document.getElementById('icon-sound-on');
     const iconSoundOff = document.getElementById('icon-sound-off');
 
-    btnToggleAudio.addEventListener('click', () => {
-      getAudioContext();
+    btnToggleAudio.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const ctx = getAudioContext();
+      if (ctx && ctx.state === 'suspended') ctx.resume();
+
       if (isSoundMuted || !synthTimer) {
         isSoundMuted = false;
         iconSoundOn.style.display = 'block';
@@ -2165,14 +2170,25 @@
     });
 
     function unlockAudioOnFirstTouch() {
-      getAudioContext();
-      if (!isSoundMuted && !synthTimer) {
+      const ctx = getAudioContext();
+      if (ctx) {
+        if (ctx.state === 'suspended') {
+          ctx.resume();
+        }
+        const buffer = ctx.createBuffer(1, 1, 22050);
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(ctx.destination);
+        source.start(0);
+      }
+      if (!isSoundMuted && !synthTimer && !stage5.classList.contains('active')) {
         startSoftAmbientLoop();
       }
     }
-    document.addEventListener('pointerdown', unlockAudioOnFirstTouch, { once: true });
-    document.addEventListener('touchstart', unlockAudioOnFirstTouch, { once: true });
-    document.addEventListener('click', unlockAudioOnFirstTouch, { once: true });
+
+    ['pointerdown', 'touchstart', 'click', 'keydown'].forEach(evt => {
+      document.addEventListener(evt, unlockAudioOnFirstTouch, { passive: true });
+    });
 
     /* TRANSIÇÃO DE SALAS */
     const stage1 = document.getElementById('stage-1');
@@ -2372,12 +2388,12 @@
 
     function openFlowerModal(flor, itemEl, evt) {
       unlockAudioOnFirstTouch();
+      playMagicalChime();
       if (!bloomedSet.has(flor.id)) {
         bloomedSet.add(flor.id);
         itemEl.classList.add('bloomed');
         bloomCountEl.textContent = bloomedSet.size;
         spawnPetals(evt.clientX || window.innerWidth / 2, evt.clientY || window.innerHeight / 2, flor.petalaCor);
-        playMagicalChime();
       }
 
       modalTag.textContent = `Flor da ${flor.nome}`;
@@ -2485,7 +2501,6 @@
       const isVideo = /\.(mp4|mov|webm)$/i.test(mem.midia);
 
       if (isVideo) {
-        // Pausa a música de fundo para o som do vídeo tocar limpo!
         stopSoftAmbientLoop();
 
         polaroidImgBox.innerHTML = `
@@ -2565,7 +2580,6 @@
         vid.currentTime = 0;
       }
       polaroidModal.classList.remove('open');
-      // Se não estiver na Sala 5 e não estiver mudo, retoma a caixinha de música
       if (!isSoundMuted && !stage5.classList.contains('active')) {
         startSoftAmbientLoop();
       }
@@ -2586,7 +2600,6 @@
     const subtitlesDisplay = document.getElementById('subtitles-display');
     const finalLetterBlock = document.getElementById('final-letter-block');
 
-    // Vincula as fontes do topo diretamente nos elementos de vídeo
     if (mainVoiceVideo) {
       mainVoiceVideo.src = VIDEO_FALA_SRC;
     }
@@ -2598,22 +2611,19 @@
     let subtitleIndex = 0;
 
     function startVideoExperience() {
-      stopSoftAmbientLoop(); // Pausa a melodia de fundo para sua voz sobressair
+      stopSoftAmbientLoop();
       
       videoPlayCover.style.opacity = '0';
       setTimeout(() => {
         videoPlayCover.style.display = 'none';
       }, 500);
 
-      // Ativa os controles para pausar/dar play quando quiser!
       mainVoiceVideo.controls = true;
 
-      // Inicia o vídeo principal falando (ami.mp4)
       mainVoiceVideo.play().catch(e => {
         console.log("Aguardando vídeo principal: ", e);
       });
 
-      // Mostra e inicia o vídeo fotofala no quadradinho flutuante
       floatingPhotoBadge.classList.add('visible');
       if (floatingVideoElem) {
         floatingVideoElem.play().catch(e => {
@@ -2621,7 +2631,6 @@
         });
       }
 
-      // Cicla as legendas de afeto a cada 5 segundos
       if (subtitleTimer) clearInterval(subtitleTimer);
       subtitleTimer = setInterval(() => {
         subtitleIndex = (subtitleIndex + 1) % FRASES_SINTONIA_VIDEO.length;
